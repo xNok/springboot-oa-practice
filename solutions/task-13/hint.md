@@ -43,6 +43,39 @@ public OrderResponse checkout(CheckoutRequest request) {
     // 6. Convert to response DTO
     return convertToOrderResponse(savedOrder);
 }
+
+// Alternative: Using MapStruct (Provided in Skeleton)
+@Autowired
+private OrderMapper orderMapper;
+@Autowired
+private CartItemMapper cartItemMapper;
+
+@Transactional
+public OrderResponse checkout(CheckoutRequest request) {
+    List<CartItem> cartItems = cartItemRepository.findByOrderIdIsNull();
+    
+    if (cartItems.isEmpty()) {
+        throw new BusinessRuleException("Cannot checkout with an empty cart");
+    }
+    
+    BigDecimal totalAmount = cartItems.stream()
+        .map(item -> item.getPrice().multiply(BigDecimal.valueOf(item.getQuantity())))
+        .reduce(BigDecimal.ZERO, BigDecimal::add);
+    
+    Order order = new Order();
+    order.setCustomerId(request.getCustomerId());
+    order.setCustomerName(request.getCustomerName());
+    order.setOrderDate(LocalDateTime.now());
+    order.setStatus(OrderStatus.CREATED);
+    order.setTotalAmount(totalAmount);
+    
+    Order savedOrder = orderRepository.save(order);
+    
+    cartItems.forEach(item -> item.setOrderId(savedOrder.getId()));
+    cartItemRepository.saveAll(cartItems);
+    
+    return orderMapper.toResponse(savedOrder);  // Automatic mapping
+}
 ```
 
 ### 3. Controller Endpoint

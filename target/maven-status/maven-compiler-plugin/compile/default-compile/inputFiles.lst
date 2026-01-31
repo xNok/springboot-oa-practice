@@ -7,6 +7,8 @@
 /workspaces/springboot-oa-practice/src/main/java/com/example/oa/exception/BusinessRuleException.java
 /workspaces/springboot-oa-practice/src/main/java/com/example/oa/exception/ResourceNotFoundException.java
 /workspaces/springboot-oa-practice/src/main/java/com/example/oa/service/OrderService.java
+/workspaces/springboot-oa-practice/src/main/java/com/example/oa/mapper/OrderMapper.java
+/workspaces/springboot-oa-practice/src/main/java/com/example/oa/mapper/CartItemMapper.java
 /workspaces/springboot-oa-practice/src/main/java/com/example/oa/repository/ProductRepository.java
 /workspaces/springboot-oa-practice/src/main/java/com/example/oa/dto/UpdateOrderStatusRequest.java
 /workspaces/springboot-oa-practice/src/main/java/com/example/oa/dto/OrderResponse.java

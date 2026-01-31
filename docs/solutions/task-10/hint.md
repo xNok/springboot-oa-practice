@@ -37,6 +37,29 @@ public OrderResponse updateOrderStatus(Long id, UpdateOrderStatusRequest request
     return mapToResponse(updatedOrder);
 }
 
+// Alternative: Using MapStruct (Provided in Skeleton)
+@Autowired
+private OrderMapper orderMapper;
+
+public OrderResponse updateOrderStatus(Long id, UpdateOrderStatusRequest request) {
+    Order order = orderRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Order", id));
+    
+    OrderStatus currentStatus = order.getStatus();
+    OrderStatus newStatus = request.getStatus();
+    
+    if (!isValidTransition(currentStatus, newStatus)) {
+        throw new BusinessRuleException(
+            String.format("Invalid state transition from %s to %s", 
+                currentStatus, newStatus)
+        );
+    }
+    
+    order.setStatus(newStatus);
+    Order updatedOrder = orderRepository.save(order);
+    return orderMapper.toResponse(updatedOrder);  // Automatic mapping
+}
+
 private boolean isValidTransition(OrderStatus from, OrderStatus to) {
     // DELIVERED is final
     if (from == OrderStatus.DELIVERED) {

@@ -81,6 +81,25 @@ Order order = Order.builder()
         .build();
 ```
 
+## Alternative: Using MapStruct (Provided in Skeleton)
+
+```java
+@Autowired
+private OrderMapper orderMapper;
+
+public OrderResponse createOrder(OrderRequest request) {
+    Order order = new Order();
+    order.setCustomerId(request.getCustomerId());
+    order.setCustomerName(request.getCustomerName());
+    order.setTotalAmount(request.getTotalAmount());
+    order.setOrderDate(LocalDateTime.now());
+    order.setStatus(OrderStatus.CREATED);
+    
+    Order savedOrder = orderRepository.save(order);
+    return orderMapper.toResponse(savedOrder);  // Automatic mapping
+}
+```
+
 ## Testing
 
 ```bash

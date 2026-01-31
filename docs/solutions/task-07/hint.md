@@ -22,6 +22,15 @@ public Page<OrderResponse> getOrders(Pageable pageable) {
     return orderPage.map(this::mapToResponse);
 }
 
+// Alternative: Using MapStruct (Provided in Skeleton)
+@Autowired
+private OrderMapper orderMapper;
+
+public Page<OrderResponse> getOrders(Pageable pageable) {
+    Page<Order> orderPage = orderRepository.findAll(pageable);
+    return orderPage.map(orderMapper::toResponse);  // Automatic mapping
+}
+
 private OrderResponse mapToResponse(Order order) {
     OrderResponse response = new OrderResponse();
     response.setId(order.getId());

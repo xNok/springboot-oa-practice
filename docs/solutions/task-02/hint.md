@@ -106,6 +106,31 @@ public ResponseEntity<CartItemResponse> addCartItem(@Valid @RequestBody CartItem
 }
 ```
 
+## Alternative Implementation: Using MapStruct
+
+```java
+@Autowired
+private CartItemMapper cartItemMapper;
+
+public CartItemResponse addCartItem(CartItemRequest request) {
+    // Validate product exists
+    Product product = productRepository.findById(request.getProductId())
+            .orElseThrow(() -> new ResourceNotFoundException("Product", request.getProductId()));
+    
+    // Create cart item
+    CartItem cartItem = new CartItem();
+    cartItem.setProductId(product.getId());
+    cartItem.setProductName(product.getName());
+    cartItem.setPrice(product.getPrice());
+    cartItem.setQuantity(request.getQuantity());
+    cartItem.setOrderId(request.getOrderId());
+    
+    // Save and map using MapStruct
+    CartItem savedItem = cartItemRepository.save(cartItem);
+    return cartItemMapper.toResponse(savedItem);  // Auto-calculates subtotal
+}
+```
+
 ## Testing the Implementation
 
 ```bash

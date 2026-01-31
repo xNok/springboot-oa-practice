@@ -186,7 +186,39 @@ Solution hints are available in the `solutions/` folder:
 
 **Recommendation:** Try to implement each task yourself before checking the hints!
 
-## 🗂️ Project Structure
+## �️ Entity-DTO Mapping Guide
+
+To reduce boilerplate code for entity-to-DTO mapping, we provide three approaches:
+
+1. **Manual Mapping** - Simple and explicit (~10-15 lines per mapping)
+2. **Constructor Mapping** - Ultra-concise with Lombok (~1-3 lines)
+3. **MapStruct** - Auto-generated mappers, production-grade (~2-3 lines of interface code)
+
+📖 **See [MAPPING_GUIDE.md](MAPPING_GUIDE.md) for detailed examples and recommendations**
+
+📊 **See [MAPPING_EFFICIENCY.md](MAPPING_EFFICIENCY.md) for code volume analysis**
+
+Example with MapStruct (fastest):
+```java
+@Mapper(componentModel = "spring")
+public interface CartItemMapper {
+    @Mapping(target = "subtotal", expression = "java(item.getQuantity() * item.getPrice())")
+    CartItemResponse toResponse(CartItem item);
+}
+```
+
+Then in service:
+```java
+@Autowired private CartItemMapper cartItemMapper;
+
+public List<CartItemResponse> getAllCartItems() {
+    return cartItemRepository.findAll().stream()
+        .map(cartItemMapper::toResponse)
+        .collect(Collectors.toList());
+}
+```
+
+## �🗂️ Project Structure
 
 ```
 springboot-oa-practice/

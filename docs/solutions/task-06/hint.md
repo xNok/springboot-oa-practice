@@ -66,6 +66,25 @@ public OrderResponse getOrderById(Long id) {
 }
 ```
 
+### Using MapStruct (Provided in Skeleton)
+```java
+@Autowired
+private OrderMapper orderMapper;
+
+public OrderResponse getOrderById(Long id) {
+    Order order = orderRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Order", id));
+    return orderMapper.toResponse(order);  // Automatic mapping
+}
+
+// Or with Optional.map:
+public OrderResponse getOrderById(Long id) {
+    return orderRepository.findById(id)
+            .map(orderMapper::toResponse)
+            .orElseThrow(() -> new ResourceNotFoundException("Order", id));
+}
+```
+
 ### Custom Error Message
 ```java
 .orElseThrow(() -> new ResourceNotFoundException(

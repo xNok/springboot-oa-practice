@@ -32,6 +32,29 @@ public OrderResponse cancelOrder(Long id) {
     Order updatedOrder = orderRepository.save(order);
     return mapToResponse(updatedOrder);
 }
+
+// Alternative: Using MapStruct (Provided in Skeleton)
+@Autowired
+private OrderMapper orderMapper;
+
+public OrderResponse cancelOrder(Long id) {
+    Order order = orderRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Order", id));
+    
+    OrderStatus currentStatus = order.getStatus();
+    
+    if (currentStatus == OrderStatus.DELIVERED) {
+        throw new BusinessRuleException("Cannot cancel a delivered order");
+    }
+    
+    if (currentStatus == OrderStatus.CANCELLED) {
+        return orderMapper.toResponse(order);  // Idempotent
+    }
+    
+    order.setStatus(OrderStatus.CANCELLED);
+    Order updatedOrder = orderRepository.save(order);
+    return orderMapper.toResponse(updatedOrder);  // Automatic mapping
+}
 ```
 
 ### Alternative: Reuse updateOrderStatus

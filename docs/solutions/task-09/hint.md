@@ -46,6 +46,30 @@ public Page<OrderResponse> getOrdersByDateRange(
     
     return orderPage.map(this::mapToResponse);
 }
+
+// Alternative: Using MapStruct (Provided in Skeleton)
+@Autowired
+private OrderMapper orderMapper;
+
+public Page<OrderResponse> getOrdersByDateRange(
+        LocalDateTime startDate, 
+        LocalDateTime endDate, 
+        Pageable pageable) {
+    
+    Page<Order> orderPage;
+    
+    if (startDate != null && endDate != null) {
+        orderPage = orderRepository.findByOrderDateBetween(startDate, endDate, pageable);
+    } else if (startDate != null) {
+        orderPage = orderRepository.findByOrderDateAfter(startDate, pageable);
+    } else if (endDate != null) {
+        orderPage = orderRepository.findByOrderDateBefore(endDate, pageable);
+    } else {
+        orderPage = orderRepository.findAll(pageable);
+    }
+    
+    return orderPage.map(orderMapper::toResponse);  // Automatic mapping
+}
 ```
 
 ### 3. Controller Layer Implementation

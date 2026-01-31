@@ -46,3 +46,30 @@ public CartItemResponse updateCartItem(
 - Validate new product exists (404 if not found)
 - Update all relevant fields
 - Use PUT for full resource update
+
+## Alternative Implementation: Using MapStruct
+
+```java
+@Autowired
+private CartItemMapper cartItemMapper;
+
+public CartItemResponse updateCartItem(Long id, CartItemRequest request) {
+    CartItem cartItem = cartItemRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("CartItem", id));
+    
+    Product product = productRepository.findById(request.getProductId())
+            .orElseThrow(() -> new ResourceNotFoundException("Product", request.getProductId()));
+    
+    // Update fields
+    cartItem.setProductId(product.getId());
+    cartItem.setProductName(product.getName());
+    cartItem.setPrice(product.getPrice());
+    cartItem.setQuantity(request.getQuantity());
+    if (request.getOrderId() != null) {
+        cartItem.setOrderId(request.getOrderId());
+    }
+    
+    CartItem updatedItem = cartItemRepository.save(cartItem);
+    return cartItemMapper.toResponse(updatedItem);  // Auto-calculates subtotal
+}
+```

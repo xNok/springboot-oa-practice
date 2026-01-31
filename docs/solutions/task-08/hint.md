@@ -17,6 +17,15 @@ public Page<OrderResponse> getOrdersByStatus(OrderStatus status, Pageable pageab
     Page<Order> orderPage = orderRepository.findByStatus(status, pageable);
     return orderPage.map(this::mapToResponse);
 }
+
+// Alternative: Using MapStruct (Provided in Skeleton)
+@Autowired
+private OrderMapper orderMapper;
+
+public Page<OrderResponse> getOrdersByStatus(OrderStatus status, Pageable pageable) {
+    Page<Order> orderPage = orderRepository.findByStatus(status, pageable);
+    return orderPage.map(orderMapper::toResponse);  // Automatic mapping
+}
 ```
 
 ### 3. Controller Layer Implementation

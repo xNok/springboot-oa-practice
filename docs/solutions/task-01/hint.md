@@ -59,9 +59,25 @@ public List<CartItemResponse> getAllCartItems() {
 
 ## Alternative Implementations
 
-### Using ModelMapper or MapStruct
+### Using MapStruct (Provided in Skeleton)
 ```java
-// If you prefer using a mapping library (not required for OA)
+// The skeleton includes CartItemMapper with automatic null-safe mapping
+@Autowired
+private CartItemMapper cartItemMapper;
+
+public List<CartItemResponse> getAllCartItems() {
+    return cartItemRepository.findAll().stream()
+            .map(cartItemMapper::toResponse)  // Auto-calculates subtotal
+            .collect(Collectors.toList());
+}
+
+// For extra safety with potentially null entities:
+// .map(cartItemMapper::toResponseSafe)
+```
+
+### Using ModelMapper
+```java
+// If you prefer using a different mapping library (not required for OA)
 @Autowired
 private ModelMapper modelMapper;
 
