@@ -60,6 +60,11 @@ public class CartItemController {
     // Task 4: DELETE /api/cart/items/{id}
     // Status: 204 No Content
     // Errors: 404 if cart item not found
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteCartItem(@PathVariable Long id) {
+        cartItemService.deleteCartItem(id);
+    }
 
 }
 

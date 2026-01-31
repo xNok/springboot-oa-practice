@@ -88,8 +88,14 @@ public class CartItemService {
         return mapToResponse(updated);
     }
 
-    // TODO: Task 4 - Implement method to delete a cart item
+    // Task 4 - Delete a cart item
     public void deleteCartItem(Long id) {
-        throw new UnsupportedOperationException("Task 4: Implement deleteCartItem");
+        // Check if cart item exists
+        if (!cartItemRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Cart item", id);
+        }
+        
+        // Delete the cart item
+        cartItemRepository.deleteById(id);
     }
 }
