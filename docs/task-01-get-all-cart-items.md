@@ -32,7 +32,7 @@ Create a GET endpoint that returns all cart items stored in the database.
 [
   {
     "id": 1,
-    "orderId": 1,
+    "orderId": null,
     "productId": 101,
     "productName": "Laptop",
     "quantity": 2,
@@ -41,7 +41,7 @@ Create a GET endpoint that returns all cart items stored in the database.
   },
   {
     "id": 2,
-    "orderId": 1,
+    "orderId": null,
     "productId": 102,
     "productName": "Mouse",
     "quantity": 1,

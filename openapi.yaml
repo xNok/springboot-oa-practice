@@ -539,12 +539,7 @@ components:
           minimum: 1
           description: Quantity of the product
           example: 2
-        orderId:
-          type: integer
-          format: int64
-          description: Optional order ID (can be null)
-          nullable: true
-          example: null
+        # Note: orderId is NOT included - managed by system during checkout
 
     CartItemResponse:
       type: object

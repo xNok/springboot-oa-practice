@@ -55,7 +55,7 @@ Create a PUT endpoint that updates an existing cart item in the database.
 ```json
 {
   "id": 1,
-  "orderId": 1,
+  "orderId": null,
   "productId": 102,
   "productName": "Mouse",
   "quantity": 5,

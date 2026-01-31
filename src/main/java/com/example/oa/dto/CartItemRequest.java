@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
  * CartItem request DTO for creating or updating a cart item.
  * 
  * This DTO is provided as part of the skeleton.
+ * Note: orderId is managed by the system and should not be set by clients.
  */
 @Data
 @NoArgsConstructor
@@ -22,6 +23,7 @@ public class CartItemRequest {
     @NotNull(message = "Quantity is required")
     @Positive(message = "Quantity must be positive")
     private Integer quantity;
-
-    private Long orderId;
+    
+    // Note: orderId is NOT included here - it's managed by the system
+    // Cart items have orderId = null until checkout (Task 13)
 }

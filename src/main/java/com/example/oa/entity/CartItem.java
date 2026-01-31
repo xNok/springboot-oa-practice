@@ -22,8 +22,8 @@ public class CartItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private Long orderId;
+    @Column(nullable = true)
+    private Long orderId;  // NULL for cart items, set when checkout creates order
 
     @Column(nullable = false)
     private Long productId;
