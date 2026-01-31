@@ -58,19 +58,39 @@ public class OrderController {
     // Query params: page (default 0), size (default 10), sort (default id)
     // Returns: Page<OrderResponse>
     // Status: 200 OK
-
-
-    // Task 8: GET /api/orders?status=CONFIRMED
-    // Query params: status, page, size, sort
-    // Returns: Page<OrderResponse>
-    // Status: 200 OK
-
-
-    // Task 9: GET /api/orders?startDate=2024-01-01T00:00:00&endDate=2024-12-31T23:59:59
-    // Query params: startDate, endDate, page, size, sort
-    // Returns: Page<OrderResponse>
-    // Status: 200 OK
-    // Note: Dates should be in ISO format (yyyy-MM-ddTHH:mm:ss)
+    // Task 8: Also supports ?status=CONFIRMED
+    // Task 9: Also supports ?startDate=2024-01-01T00:00:00&endDate=2024-12-31T23:59:59
+    @GetMapping
+    public Page<OrderResponse> getOrders(
+            @RequestParam(required = false) OrderStatus status,
+            @RequestParam(required = false) LocalDateTime startDate,
+            @RequestParam(required = false) LocalDateTime endDate,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sort) {
+        
+        // Parse sort parameter
+        String[] sortParts = sort.split(",");
+        String sortField = sortParts[0];
+        Sort.Direction direction = sortParts.length > 1 && sortParts[1].equalsIgnoreCase("desc") 
+                ? Sort.Direction.DESC 
+                : Sort.Direction.ASC;
+        
+        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortField));
+        
+        // Task 9 - Filter by date range (single or both dates)
+        if (startDate != null || endDate != null) {
+            return orderService.getOrdersByDateRange(startDate, endDate, pageable);
+        }
+        
+        // Task 8 - Filter by status
+        if (status != null) {
+            return orderService.getOrdersByStatus(status, pageable);
+        }
+        
+        // Task 7 - Pagination only
+        return orderService.getOrders(pageable);
+    }
 
 
     // Task 10: PATCH /api/orders/{id}/status

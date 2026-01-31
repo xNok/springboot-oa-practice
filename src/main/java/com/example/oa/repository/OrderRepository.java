@@ -21,8 +21,11 @@ import java.time.LocalDateTime;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long>, JpaSpecificationExecutor<Order> {
 
-    // TODO: Task 7-9 - Add custom query methods for filtering
-    // Examples:
-    // Page<Order> findByStatus(OrderStatus status, Pageable pageable);
-    // Page<Order> findByOrderDateBetween(LocalDateTime start, LocalDateTime end, Pageable pageable);
+    // Task 8 - Filter by status
+    Page<Order> findByStatus(OrderStatus status, Pageable pageable);
+    
+    // Task 9 - Filter by date range
+    Page<Order> findByOrderDateBetween(LocalDateTime start, LocalDateTime end, Pageable pageable);
+    Page<Order> findByOrderDateGreaterThanEqual(LocalDateTime start, Pageable pageable);
+    Page<Order> findByOrderDateLessThanEqual(LocalDateTime end, Pageable pageable);
 }

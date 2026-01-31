@@ -58,19 +58,26 @@ public class OrderService {
         return mapToResponse(order);
     }
 
-    // TODO: Task 7 - Implement method to get orders with pagination
+    // Task 7 - Get orders with pagination
     public Page<OrderResponse> getOrders(Pageable pageable) {
-        throw new UnsupportedOperationException("Task 7: Implement getOrders with pagination");
+        return orderRepository.findAll(pageable).map(this::mapToResponse);
     }
 
-    // TODO: Task 8 - Implement method to filter orders by status
+    // Task 8 - Filter orders by status
     public Page<OrderResponse> getOrdersByStatus(OrderStatus status, Pageable pageable) {
-        throw new UnsupportedOperationException("Task 8: Implement getOrdersByStatus");
+        return orderRepository.findByStatus(status, pageable).map(this::mapToResponse);
     }
 
-    // TODO: Task 9 - Implement method to filter orders by date range
+    // Task 9 - Filter orders by date range
     public Page<OrderResponse> getOrdersByDateRange(LocalDateTime startDate, LocalDateTime endDate, Pageable pageable) {
-        throw new UnsupportedOperationException("Task 9: Implement getOrdersByDateRange");
+        if (startDate != null && endDate != null) {
+            return orderRepository.findByOrderDateBetween(startDate, endDate, pageable).map(this::mapToResponse);
+        } else if (startDate != null) {
+            return orderRepository.findByOrderDateGreaterThanEqual(startDate, pageable).map(this::mapToResponse);
+        } else if (endDate != null) {
+            return orderRepository.findByOrderDateLessThanEqual(endDate, pageable).map(this::mapToResponse);
+        }
+        return orderRepository.findAll(pageable).map(this::mapToResponse);
     }
 
     // TODO: Task 10 - Implement method to update order status
