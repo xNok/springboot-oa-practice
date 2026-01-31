@@ -17,4 +17,8 @@ public interface CartItemRepository extends JpaRepository<CartItem, Long> {
 
     // TODO: Candidates may add custom query methods if needed
     // Example: List<CartItem> findByOrderId(Long orderId);
+    
+    // Hint for Task 13: You'll need to find cart items that are not yet in an order
+    // List<CartItem> findByOrderIdIsNull();
 }
+

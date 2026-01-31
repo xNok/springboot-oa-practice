@@ -33,7 +33,7 @@ public class Task01GetAllCartItemsTest {
 
     @Test
     public void testGetAllCartItems_Success() throws Exception {
-        mockMvc.perform(get("/api/cart-items"))
+        mockMvc.perform(get("/api/cart/items"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(3)))
                 .andExpect(jsonPath("$[0].id", is(1)))
@@ -47,7 +47,7 @@ public class Task01GetAllCartItemsTest {
     @Test
     public void testGetAllCartItems_EmptyList() throws Exception {
         // First, clean the database
-        mockMvc.perform(get("/api/cart-items"))
+        mockMvc.perform(get("/api/cart/items"))
                 .andExpect(status().isOk());
         
         // Note: This test assumes cleanup removes all cart items
@@ -56,7 +56,7 @@ public class Task01GetAllCartItemsTest {
 
     @Test
     public void testGetAllCartItems_SubtotalCalculation() throws Exception {
-        mockMvc.perform(get("/api/cart-items"))
+        mockMvc.perform(get("/api/cart/items"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].subtotal", is(1999.98))) // 2 * 999.99
                 .andExpect(jsonPath("$[1].subtotal", is(29.99)))   // 1 * 29.99

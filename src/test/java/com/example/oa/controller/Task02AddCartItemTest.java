@@ -63,7 +63,7 @@ public class Task02AddCartItemTest {
         request.setQuantity(2);
         // Missing productId
 
-        mockMvc.perform(post("/api/cart-items")
+        mockMvc.perform(post("/api/cart/items")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest())
@@ -77,7 +77,7 @@ public class Task02AddCartItemTest {
         request.setProductId(1L);
         request.setQuantity(-1); // Invalid: negative quantity
 
-        mockMvc.perform(post("/api/cart-items")
+        mockMvc.perform(post("/api/cart/items")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest())
@@ -90,7 +90,7 @@ public class Task02AddCartItemTest {
         request.setProductId(9999L); // Non-existent product
         request.setQuantity(2);
 
-        mockMvc.perform(post("/api/cart-items")
+        mockMvc.perform(post("/api/cart/items")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isNotFound())
@@ -104,7 +104,7 @@ public class Task02AddCartItemTest {
         request.setProductId(2L); // Mouse
         request.setQuantity(5);
 
-        mockMvc.perform(post("/api/cart-items")
+        mockMvc.perform(post("/api/cart/items")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())

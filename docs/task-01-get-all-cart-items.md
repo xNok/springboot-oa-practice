@@ -8,7 +8,7 @@ Create a GET endpoint that returns all cart items stored in the database.
 
 ## API Specification
 - **HTTP Method**: GET
-- **Path**: `/api/cart-items`
+- **Path**: `/api/cart/items`
 - **Request Body**: None
 - **Response Body**: `List<CartItemResponse>`
 - **Success Status**: 200 OK

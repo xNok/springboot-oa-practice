@@ -19,33 +19,34 @@ import java.util.List;
  * Error handling is already configured in GlobalExceptionHandler.
  */
 @RestController
-@RequestMapping("/api/cart-items")
+@RequestMapping("/api/cart/items")
 public class CartItemController {
 
     @Autowired
     private CartItemService cartItemService;
 
-    // Task 1: GET /api/cart-items
+    // Task 1: GET /api/cart/items
     // Returns: List<CartItemResponse>
     // Status: 200 OK (returns empty list if no items)
 
 
-    // Task 2: POST /api/cart-items
+    // Task 2: POST /api/cart/items
     // Request: CartItemRequest (productId, quantity)
     // Returns: CartItemResponse
     // Status: 201 Created
     // Errors: 404 if product not found, 400 if validation fails
 
 
-    // Task 3: PUT /api/cart-items/{id}
+    // Task 3: PUT /api/cart/items/{id}
     // Request: CartItemRequest (productId, quantity)
     // Returns: CartItemResponse
     // Status: 200 OK
     // Errors: 404 if cart item not found, 404 if product not found, 400 if validation fails
 
 
-    // Task 4: DELETE /api/cart-items/{id}
+    // Task 4: DELETE /api/cart/items/{id}
     // Status: 204 No Content
     // Errors: 404 if cart item not found
 
 }
+

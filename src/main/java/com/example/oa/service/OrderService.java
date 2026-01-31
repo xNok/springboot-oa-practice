@@ -64,4 +64,10 @@ public class OrderService {
     public OrderResponse cancelOrder(Long id) {
         throw new UnsupportedOperationException("Task 12: Implement cancelOrder");
     }
+
+    // TODO: Task 13 (BONUS) - Implement checkout: create order from cart items
+    public OrderResponse checkout(Long customerId, String customerName) {
+        throw new UnsupportedOperationException("Task 13: Implement checkout");
+    }
 }
+

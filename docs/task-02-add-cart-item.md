@@ -8,7 +8,7 @@ Create a POST endpoint that adds a new cart item to the database.
 
 ## API Specification
 - **HTTP Method**: POST
-- **Path**: `/api/cart-items`
+- **Path**: `/api/cart/items`
 - **Request Body**: `CartItemRequest`
 - **Response Body**: `CartItemResponse`
 - **Success Status**: 201 Created

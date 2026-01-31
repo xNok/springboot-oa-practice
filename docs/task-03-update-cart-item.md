@@ -8,7 +8,7 @@ Create a PUT endpoint that updates an existing cart item in the database.
 
 ## API Specification
 - **HTTP Method**: PUT
-- **Path**: `/api/cart-items/{id}`
+- **Path**: `/api/cart/items/{id}`
 - **Path Variable**: `id` (Long) - The cart item ID
 - **Request Body**: `CartItemRequest`
 - **Response Body**: `CartItemResponse`

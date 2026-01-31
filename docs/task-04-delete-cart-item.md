@@ -8,7 +8,7 @@ Create a DELETE endpoint that removes a cart item from the database.
 
 ## API Specification
 - **HTTP Method**: DELETE
-- **Path**: `/api/cart-items/{id}`
+- **Path**: `/api/cart/items/{id}`
 - **Path Variable**: `id` (Long) - The cart item ID
 - **Request Body**: None
 - **Response Body**: None
@@ -35,7 +35,7 @@ Create a DELETE endpoint that removes a cart item from the database.
 
 ## Example Request
 ```
-DELETE /api/cart-items/1
+DELETE /api/cart/items/1
 ```
 
 ## Example Response

@@ -105,7 +105,13 @@ The application will start on `http://localhost:8080`
 | [Task 11](docs/task-11-validate-state-transitions.md) | Validate transitions | (integrated with Task 10) |
 | [Task 12](docs/task-12-cancel-order.md) | Cancel order endpoint | 10-15 min |
 
-**Total Estimated Time: 2-2.5 hours**
+### Phase 4: Integration (BONUS) (25-30 minutes)
+
+| Task | Description | Estimated Time |
+|------|-------------|----------------|
+| [Task 13](docs/task-13-checkout-create-order-from-cart.md) | Checkout - Create order from cart | 25-30 min |
+
+**Total Estimated Time: 2-2.5 hours (2.5-3 hours with bonus task)**
 
 ## 🧪 Testing Your Implementation
 
@@ -220,10 +226,10 @@ springboot-oa-practice/
 ## 🔍 Key Endpoints to Implement
 
 ### CartItem Endpoints
-- `GET /api/cart-items` - Get all cart items
-- `POST /api/cart-items` - Add new cart item
-- `PUT /api/cart-items/{id}` - Update cart item
-- `DELETE /api/cart-items/{id}` - Delete cart item
+- `GET /api/cart/items` - Get all cart items
+- `POST /api/cart/items` - Add new cart item
+- `PUT /api/cart/items/{id}` - Update cart item
+- `DELETE /api/cart/items/{id}` - Delete cart item
 
 ### Order Endpoints
 - `POST /api/orders` - Create new order
@@ -271,10 +277,10 @@ CREATED ──────> CONFIRMED ──────> SHIPPED ────�
 ### Manual Testing with curl
 ```bash
 # Get all cart items
-curl http://localhost:8080/api/cart-items
+curl http://localhost:8080/api/cart/items
 
 # Add a cart item
-curl -X POST http://localhost:8080/api/cart-items \
+curl -X POST http://localhost:8080/api/cart/items \
   -H "Content-Type: application/json" \
   -d '{"productId": 1, "quantity": 2}'
 

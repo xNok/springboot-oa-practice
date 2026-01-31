@@ -18,11 +18,13 @@ servers:
 tags:
   - name: Cart Items
     description: Cart item management endpoints (Tasks 1-4)
+  - name: Cart
+    description: Cart-level operations (Task 13)
   - name: Orders
     description: Order management endpoints (Tasks 5-12)
 
 paths:
-  /api/cart-items:
+  /api/cart/items:
     get:
       tags:
         - Cart Items
@@ -109,12 +111,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
-                message: Product not found with id: 999
+                message: "Product not found with id: 999"
                 status: 404
                 timestamp: "2026-01-31T10:00:00"
                 errors: []
 
-  /api/cart-items/{id}:
+  /api/cart/items/{id}:
     put:
       tags:
         - Cart Items
@@ -190,8 +192,59 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
-                message: CartItem not found with id: 999
+                message: "CartItem not found with id: 999"
                 status: 404
+                timestamp: "2026-01-31T10:00:00"
+                errors: []
+
+  /api/cart/checkout:
+    post:
+      tags:
+        - Cart
+      summary: Task 13 (BONUS) - Checkout - Create order from cart
+      description: |
+        Create an order from current cart items (items with orderId=null).
+        Calculates total automatically from cart items and links them to the order.
+        This is a more realistic e-commerce flow.
+      operationId: checkout
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckoutRequest'
+            example:
+              customerId: 1
+              customerName: John Doe
+      responses:
+        '201':
+          description: Order created successfully from cart items
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderResponse'
+              example:
+                id: 10
+                customerId: 1
+                customerName: John Doe
+                orderDate: "2026-01-31T15:30:00"
+                status: CREATED
+                totalAmount: 2109.96
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Cart is empty, cannot checkout
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                message: Cannot checkout with an empty cart
+                status: 422
                 timestamp: "2026-01-31T10:00:00"
                 errors: []
 
@@ -352,7 +405,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
-                message: Order not found with id: 999
+                message: "Order not found with id: 999"
                 status: 404
                 timestamp: "2026-01-31T10:00:00"
                 errors: []
@@ -600,6 +653,21 @@ components:
         - DELIVERED: Order received (final state)
         - CANCELLED: Order cancelled (final state)
 
+    CheckoutRequest:
+      type: object
+      required:
+        - customerId
+      properties:
+        customerId:
+          type: integer
+          format: int64
+          description: ID of the customer placing the order
+          example: 1
+        customerName:
+          type: string
+          description: Optional customer name (can be fetched from customer service)
+          example: John Doe
+
     PageOrderResponse:
       type: object
       properties:
@@ -655,7 +723,7 @@ components:
         message:
           type: string
           description: Error message
-          example: Order not found with id: 999
+          example: "Order not found with id: 999"
         status:
           type: integer
           description: HTTP status code
