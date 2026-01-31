@@ -98,6 +98,10 @@ public class OrderController {
     // Returns: OrderResponse
     // Status: 200 OK
     // Errors: 404 if order not found, 422 if invalid state transition
+    @PatchMapping("/{id}/status")
+    public OrderResponse updateOrderStatus(@PathVariable Long id, @Valid @RequestBody UpdateOrderStatusRequest request) {
+        return orderService.updateOrderStatus(id, request);
+    }
 
 
     // Task 11: State transition validation is implemented in the service layer
@@ -109,5 +113,9 @@ public class OrderController {
     // Returns: OrderResponse
     // Status: 200 OK
     // Errors: 404 if order not found, 422 if order cannot be cancelled (e.g., already DELIVERED)
+    @PostMapping("/{id}/cancel")
+    public OrderResponse cancelOrder(@PathVariable Long id) {
+        return orderService.cancelOrder(id);
+    }
 
 }

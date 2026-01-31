@@ -5,6 +5,7 @@ import com.example.oa.dto.OrderResponse;
 import com.example.oa.dto.UpdateOrderStatusRequest;
 import com.example.oa.entity.Order;
 import com.example.oa.entity.OrderStatus;
+import com.example.oa.exception.BusinessRuleException;
 import com.example.oa.exception.ResourceNotFoundException;
 import com.example.oa.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,19 +81,69 @@ public class OrderService {
         return orderRepository.findAll(pageable).map(this::mapToResponse);
     }
 
-    // TODO: Task 10 - Implement method to update order status
+    // Task 10 - Update order status with validation
     public OrderResponse updateOrderStatus(Long id, UpdateOrderStatusRequest request) {
-        throw new UnsupportedOperationException("Task 10: Implement updateOrderStatus");
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Order", id));
+        
+        OrderStatus newStatus = request.getStatus();
+        
+        // Task 11 - Validate state transition
+        if (!isValidTransition(order.getStatus(), newStatus)) {
+            throw new BusinessRuleException(
+                "Invalid state transition from " + order.getStatus() + " to " + newStatus
+            );
+        }
+        
+        order.setStatus(newStatus);
+        Order updated = orderRepository.save(order);
+        return mapToResponse(updated);
+    }
+    
+    // Task 11 - Validate state transitions
+    private boolean isValidTransition(OrderStatus from, OrderStatus to) {
+        // DELIVERED is final
+        if (from == OrderStatus.DELIVERED) {
+            return false;
+        }
+        
+        // Cannot transition to CREATED
+        if (to == OrderStatus.CREATED) {
+            return false;
+        }
+        
+        // Define valid transitions
+        switch (from) {
+            case CREATED:
+                return to == OrderStatus.CONFIRMED || to == OrderStatus.CANCELLED;
+            case CONFIRMED:
+                return to == OrderStatus.SHIPPED || to == OrderStatus.CANCELLED;
+            case SHIPPED:
+                return to == OrderStatus.DELIVERED || to == OrderStatus.CANCELLED;
+            case CANCELLED:
+                return false; // Cannot transition from CANCELLED
+            default:
+                return false;
+        }
     }
 
-    // TODO: Task 11 - Implement validation for state transitions
-    // This is typically called within updateOrderStatus
-    // Valid transitions: CREATED->CONFIRMED->SHIPPED->DELIVERED, or ->CANCELLED from most states
-    // Invalid: DELIVERED cannot transition to any other state
-
-    // TODO: Task 12 - Implement method to cancel an order
+    // Task 12 - Cancel an order
     public OrderResponse cancelOrder(Long id) {
-        throw new UnsupportedOperationException("Task 12: Implement cancelOrder");
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Order", id));
+        
+        // Check if order can be cancelled
+        if (order.getStatus() == OrderStatus.DELIVERED) {
+            throw new BusinessRuleException("Cannot cancel a delivered order");
+        }
+        
+        if (order.getStatus() == OrderStatus.CANCELLED) {
+            throw new BusinessRuleException("Order is already cancelled");
+        }
+        
+        order.setStatus(OrderStatus.CANCELLED);
+        Order updated = orderRepository.save(order);
+        return mapToResponse(updated);
     }
 
     // TODO: Task 13 (BONUS) - Implement checkout: create order from cart items
