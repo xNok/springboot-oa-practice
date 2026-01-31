@@ -34,5 +34,10 @@ public class CartController {
     //   5. Link all cart items to the order (set orderId)
     //   6. Return created order
     // Errors: 400 if validation fails, 422 if cart is empty
+    @PostMapping("/checkout")
+    @ResponseStatus(HttpStatus.CREATED)
+    public OrderResponse checkout(@Valid @RequestBody CheckoutRequest request) {
+        return orderService.checkout(request.getCustomerId(), request.getCustomerName());
+    }
 
 }

@@ -3,17 +3,21 @@ package com.example.oa.service;
 import com.example.oa.dto.OrderRequest;
 import com.example.oa.dto.OrderResponse;
 import com.example.oa.dto.UpdateOrderStatusRequest;
+import com.example.oa.entity.CartItem;
 import com.example.oa.entity.Order;
 import com.example.oa.entity.OrderStatus;
 import com.example.oa.exception.BusinessRuleException;
 import com.example.oa.exception.ResourceNotFoundException;
+import com.example.oa.repository.CartItemRepository;
 import com.example.oa.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Order service layer.
@@ -27,6 +31,9 @@ public class OrderService {
 
     @Autowired
     private OrderRepository orderRepository;
+    
+    @Autowired
+    private CartItemRepository cartItemRepository;
 
     // Task 5 - Create a new order
     public OrderResponse createOrder(OrderRequest request) {
@@ -146,9 +153,43 @@ public class OrderService {
         return mapToResponse(updated);
     }
 
-    // TODO: Task 13 (BONUS) - Implement checkout: create order from cart items
+    // Task 13 (BONUS) - Checkout: create order from cart items
+    @Transactional
     public OrderResponse checkout(Long customerId, String customerName) {
-        throw new UnsupportedOperationException("Task 13: Implement checkout");
+        // Fetch all cart items not yet in an order
+        List<CartItem> cartItems = cartItemRepository.findByOrderIdIsNull();
+        
+        // Validate cart is not empty
+        if (cartItems.isEmpty()) {
+            throw new BusinessRuleException("Cart is empty, cannot checkout");
+        }
+        
+        // Calculate total amount
+        double totalAmount = cartItems.stream()
+                .mapToDouble(item -> item.getQuantity() * item.getPrice())
+                .sum();
+        
+        // Round to 2 decimal places
+        totalAmount = Math.round(totalAmount * 100.0) / 100.0;
+        
+        // Create new order
+        Order order = new Order();
+        order.setCustomerId(customerId);
+        order.setCustomerName(customerName);
+        order.setTotalAmount(totalAmount);
+        order.setOrderDate(LocalDateTime.now());
+        order.setStatus(OrderStatus.CREATED);
+        
+        // Save order
+        Order savedOrder = orderRepository.save(order);
+        
+        // Link all cart items to the order
+        for (CartItem item : cartItems) {
+            item.setOrderId(savedOrder.getId());
+        }
+        cartItemRepository.saveAll(cartItems);
+        
+        return mapToResponse(savedOrder);
     }
 }
 
