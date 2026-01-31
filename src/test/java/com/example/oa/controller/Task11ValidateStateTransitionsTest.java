@@ -1,6 +1,7 @@
 package com.example.oa.controller;
 
 import com.example.oa.dto.UpdateOrderStatusRequest;
+import com.example.oa.entity.OrderStatus;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,7 @@ public class Task11ValidateStateTransitionsTest {
     @Test
     public void testValidTransition_PendingToShipped() throws Exception {
         UpdateOrderStatusRequest request = new UpdateOrderStatusRequest();
-        request.setStatus("SHIPPED");
+        request.setStatus(OrderStatus.SHIPPED);
 
         mockMvc.perform(patch("/api/orders/1/status")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -55,7 +56,7 @@ public class Task11ValidateStateTransitionsTest {
     @Test
     public void testValidTransition_PendingToCancelled() throws Exception {
         UpdateOrderStatusRequest request = new UpdateOrderStatusRequest();
-        request.setStatus("CANCELLED");
+        request.setStatus(OrderStatus.CANCELLED);
 
         mockMvc.perform(patch("/api/orders/1/status")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -68,7 +69,7 @@ public class Task11ValidateStateTransitionsTest {
     public void testValidTransition_ShippedToDelivered() throws Exception {
         // First transition from PENDING to SHIPPED
         UpdateOrderStatusRequest shipRequest = new UpdateOrderStatusRequest();
-        shipRequest.setStatus("SHIPPED");
+        shipRequest.setStatus(OrderStatus.SHIPPED);
         mockMvc.perform(patch("/api/orders/1/status")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(shipRequest)))
@@ -76,7 +77,7 @@ public class Task11ValidateStateTransitionsTest {
 
         // Then transition from SHIPPED to DELIVERED
         UpdateOrderStatusRequest deliverRequest = new UpdateOrderStatusRequest();
-        deliverRequest.setStatus("DELIVERED");
+        deliverRequest.setStatus(OrderStatus.DELIVERED);
         mockMvc.perform(patch("/api/orders/1/status")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(deliverRequest)))
@@ -89,7 +90,7 @@ public class Task11ValidateStateTransitionsTest {
         // Setup: transition order to DELIVERED first
         // Then attempt invalid transition
         UpdateOrderStatusRequest request = new UpdateOrderStatusRequest();
-        request.setStatus("PENDING");
+        request.setStatus(OrderStatus.CREATED);
 
         mockMvc.perform(patch("/api/orders/1/status")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -103,7 +104,7 @@ public class Task11ValidateStateTransitionsTest {
     public void testInvalidTransition_CancelledToAnyState() throws Exception {
         // First cancel the order
         UpdateOrderStatusRequest cancelRequest = new UpdateOrderStatusRequest();
-        cancelRequest.setStatus("CANCELLED");
+        cancelRequest.setStatus(OrderStatus.CANCELLED);
         mockMvc.perform(patch("/api/orders/1/status")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(cancelRequest)))
@@ -111,7 +112,7 @@ public class Task11ValidateStateTransitionsTest {
 
         // Then attempt to transition from cancelled
         UpdateOrderStatusRequest invalidRequest = new UpdateOrderStatusRequest();
-        invalidRequest.setStatus("SHIPPED");
+        invalidRequest.setStatus(OrderStatus.SHIPPED);
         mockMvc.perform(patch("/api/orders/1/status")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(invalidRequest)))
@@ -122,7 +123,7 @@ public class Task11ValidateStateTransitionsTest {
     public void testTransition_SameStatusAsCurrentStatus() throws Exception {
         // Attempt to set status to current status
         UpdateOrderStatusRequest request = new UpdateOrderStatusRequest();
-        request.setStatus("PENDING");
+        request.setStatus(OrderStatus.CREATED);
 
         mockMvc.perform(patch("/api/orders/1/status")
                 .contentType(MediaType.APPLICATION_JSON)

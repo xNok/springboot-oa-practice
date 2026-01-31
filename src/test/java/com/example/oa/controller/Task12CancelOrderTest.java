@@ -1,6 +1,7 @@
 package com.example.oa.controller;
 
 import com.example.oa.dto.UpdateOrderStatusRequest;
+import com.example.oa.entity.OrderStatus;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,7 @@ public class Task12CancelOrderTest {
     public void testCancelOrder_ShippedOrderSuccess() throws Exception {
         // First transition order to SHIPPED
         UpdateOrderStatusRequest shipRequest = new UpdateOrderStatusRequest();
-        shipRequest.setStatus("SHIPPED");
+        shipRequest.setStatus(OrderStatus.SHIPPED);
         mockMvc.perform(patch("/api/orders/1/status")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(shipRequest)))
