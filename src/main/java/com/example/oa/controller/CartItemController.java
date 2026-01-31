@@ -51,6 +51,10 @@ public class CartItemController {
     // Returns: CartItemResponse
     // Status: 200 OK
     // Errors: 404 if cart item not found, 404 if product not found, 400 if validation fails
+    @PutMapping("/{id}")
+    public CartItemResponse updateCartItem(@PathVariable Long id, @Valid @RequestBody CartItemRequest request) {
+        return cartItemService.updateCartItem(id, request);
+    }
 
 
     // Task 4: DELETE /api/cart/items/{id}

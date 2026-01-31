@@ -67,9 +67,25 @@ public class CartItemService {
         return mapToResponse(saved);
     }
 
-    // TODO: Task 3 - Implement method to update an existing cart item
+    // Task 3 - Update an existing cart item
     public CartItemResponse updateCartItem(Long id, CartItemRequest request) {
-        throw new UnsupportedOperationException("Task 3: Implement updateCartItem");
+        // Find existing cart item
+        CartItem cartItem = cartItemRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Cart item", id));
+        
+        // Validate that product exists
+        Product product = productRepository.findById(request.getProductId())
+                .orElseThrow(() -> new ResourceNotFoundException("Product", request.getProductId()));
+        
+        // Update cart item fields
+        cartItem.setProductId(product.getId());
+        cartItem.setProductName(product.getName());
+        cartItem.setPrice(product.getPrice());
+        cartItem.setQuantity(request.getQuantity());
+        
+        // Save and return
+        CartItem updated = cartItemRepository.save(cartItem);
+        return mapToResponse(updated);
     }
 
     // TODO: Task 4 - Implement method to delete a cart item
