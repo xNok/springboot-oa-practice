@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.example.oa.controller.Task06GetOrderByIdTest" time="0.068" tests="3" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.example.oa.sanity.SerializationSanityTest" time="0.079" tests="15" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="25"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -62,75 +62,19 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="69.0"/>
   </properties>
-  <testcase name="testGetOrderById_DifferentStatuses" classname="com.example.oa.controller.Task06GetOrderByIdTest" time="0.017">
-    <system-out><![CDATA[2026-01-31T17:39:01.915Z  INFO 5404 --- [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.example.oa.controller.Task06GetOrderByIdTest]: Task06GetOrderByIdTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2026-01-31T17:39:01.926Z  INFO 5404 --- [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.example.oa.Application for test class com.example.oa.controller.Task06GetOrderByIdTest
-Hibernate: 
-    select
-        o1_0.id,
-        o1_0.customer_id,
-        o1_0.customer_name,
-        o1_0.order_date,
-        o1_0.status,
-        o1_0.total_amount 
-    from
-        orders o1_0 
-    where
-        o1_0.id=?
-Hibernate: 
-    select
-        o1_0.id,
-        o1_0.customer_id,
-        o1_0.customer_name,
-        o1_0.order_date,
-        o1_0.status,
-        o1_0.total_amount 
-    from
-        orders o1_0 
-    where
-        o1_0.id=?
-Hibernate: 
-    select
-        o1_0.id,
-        o1_0.customer_id,
-        o1_0.customer_name,
-        o1_0.order_date,
-        o1_0.status,
-        o1_0.total_amount 
-    from
-        orders o1_0 
-    where
-        o1_0.id=?
-]]></system-out>
-  </testcase>
-  <testcase name="testGetOrderById_NotFound" classname="com.example.oa.controller.Task06GetOrderByIdTest" time="0.013">
-    <system-out><![CDATA[Hibernate: 
-    select
-        o1_0.id,
-        o1_0.customer_id,
-        o1_0.customer_name,
-        o1_0.order_date,
-        o1_0.status,
-        o1_0.total_amount 
-    from
-        orders o1_0 
-    where
-        o1_0.id=?
-]]></system-out>
-  </testcase>
-  <testcase name="testGetOrderById_Success" classname="com.example.oa.controller.Task06GetOrderByIdTest" time="0.009">
-    <system-out><![CDATA[Hibernate: 
-    select
-        o1_0.id,
-        o1_0.customer_id,
-        o1_0.customer_name,
-        o1_0.order_date,
-        o1_0.status,
-        o1_0.total_amount 
-    from
-        orders o1_0 
-    where
-        o1_0.id=?
-]]></system-out>
-  </testcase>
+  <testcase name="testOrderResponseRoundTripSerialization" classname="com.example.oa.sanity.SerializationSanityTest" time="0.014"/>
+  <testcase name="testLocalDateTimeSerialization" classname="com.example.oa.sanity.SerializationSanityTest" time="0.003"/>
+  <testcase name="testOrderRoundTripSerialization" classname="com.example.oa.sanity.SerializationSanityTest" time="0.005"/>
+  <testcase name="testProductEntitySerialization" classname="com.example.oa.sanity.SerializationSanityTest" time="0.004"/>
+  <testcase name="testCartItemResponseDTODeserialization" classname="com.example.oa.sanity.SerializationSanityTest" time="0.004"/>
+  <testcase name="testCartItemEntitySerialization" classname="com.example.oa.sanity.SerializationSanityTest" time="0.003"/>
+  <testcase name="testOrderEntitySerialization" classname="com.example.oa.sanity.SerializationSanityTest" time="0.002"/>
+  <testcase name="testOrderResponseDTOSerialization" classname="com.example.oa.sanity.SerializationSanityTest" time="0.002"/>
+  <testcase name="testOrderEntityDeserialization" classname="com.example.oa.sanity.SerializationSanityTest" time="0.003"/>
+  <testcase name="testCartItemRoundTripSerialization" classname="com.example.oa.sanity.SerializationSanityTest" time="0.005"/>
+  <testcase name="testOrderResponseDTODeserialization" classname="com.example.oa.sanity.SerializationSanityTest" time="0.002"/>
+  <testcase name="testCustomerEntitySerialization" classname="com.example.oa.sanity.SerializationSanityTest" time="0.001"/>
+  <testcase name="testOrderStatusEnumSerialization" classname="com.example.oa.sanity.SerializationSanityTest" time="0.004"/>
+  <testcase name="testCartItemResponseDTOSerialization" classname="com.example.oa.sanity.SerializationSanityTest" time="0.003"/>
+  <testcase name="testCartItemEntityDeserialization" classname="com.example.oa.sanity.SerializationSanityTest" time="0.002"/>
 </testsuite>

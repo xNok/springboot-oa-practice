@@ -53,6 +53,24 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * Handles IllegalStateException (400 Bad Request) - for invalid state operations
+     */
+    @ExceptionHandler(IllegalStateException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleIllegalState(IllegalStateException ex) {
+        return new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST.value());
+    }
+
+    /**
+     * Handles IllegalArgumentException (400 Bad Request) - for invalid arguments
+     */
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleIllegalArgument(IllegalArgumentException ex) {
+        return new ErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST.value());
+    }
+
+    /**
      * Handles validation errors from @Valid annotations (400 Bad Request)
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)

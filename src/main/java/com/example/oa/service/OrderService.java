@@ -114,15 +114,16 @@ public class OrderService {
             return false;
         }
         
-        // Cannot transition to CREATED
-        if (to == OrderStatus.CREATED) {
+        // Cannot transition to CREATED or PENDING (initial states)
+        if (to == OrderStatus.CREATED || to == OrderStatus.PENDING) {
             return false;
         }
         
         // Define valid transitions
         switch (from) {
+            case PENDING:
             case CREATED:
-                return to == OrderStatus.CONFIRMED || to == OrderStatus.CANCELLED;
+                return to == OrderStatus.CONFIRMED || to == OrderStatus.CANCELLED || to == OrderStatus.SHIPPED;
             case CONFIRMED:
                 return to == OrderStatus.SHIPPED || to == OrderStatus.CANCELLED;
             case SHIPPED:
@@ -141,11 +142,11 @@ public class OrderService {
         
         // Check if order can be cancelled
         if (order.getStatus() == OrderStatus.DELIVERED) {
-            throw new BusinessRuleException("Cannot cancel a delivered order");
+            throw new IllegalStateException("Cannot cancel a delivered order");
         }
         
         if (order.getStatus() == OrderStatus.CANCELLED) {
-            throw new BusinessRuleException("Order is already cancelled");
+            throw new IllegalStateException("Cannot cancel order in status CANCELLED");
         }
         
         order.setStatus(OrderStatus.CANCELLED);

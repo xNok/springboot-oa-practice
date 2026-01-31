@@ -69,6 +69,11 @@ public class OrderController {
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "id") String sort) {
         
+        // Validate pagination parameters
+        if (page < 0 || size <= 0) {
+            throw new IllegalArgumentException("Invalid pagination parameters");
+        }
+        
         // Parse sort parameter
         String[] sortParts = sort.split(",");
         String sortField = sortParts[0];
@@ -109,11 +114,11 @@ public class OrderController {
     // Invalid: DELIVERED cannot transition to any other state
 
 
-    // Task 12: POST /api/orders/{id}/cancel
+    // Task 12: PATCH /api/orders/{id}/cancel
     // Returns: OrderResponse
     // Status: 200 OK
-    // Errors: 404 if order not found, 422 if order cannot be cancelled (e.g., already DELIVERED)
-    @PostMapping("/{id}/cancel")
+    // Errors: 404 if order not found, 400 if order cannot be cancelled
+    @PatchMapping("/{id}/cancel")
     public OrderResponse cancelOrder(@PathVariable Long id) {
         return orderService.cancelOrder(id);
     }

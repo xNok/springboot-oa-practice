@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: com.example.oa.controller.Task11ValidateStateTransitionsTest
 -------------------------------------------------------------------------------
-Tests run: 6, Failures: 5, Errors: 0, Skipped: 0, Time elapsed: 0.209 s <<< FAILURE! -- in com.example.oa.controller.Task11ValidateStateTransitionsTest
-com.example.oa.controller.Task11ValidateStateTransitionsTest.testTransition_SameStatusAsCurrentStatus -- Time elapsed: 0.035 s <<< FAILURE!
+Tests run: 6, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 0.175 s <<< FAILURE! -- in com.example.oa.controller.Task11ValidateStateTransitionsTest
+com.example.oa.controller.Task11ValidateStateTransitionsTest.testTransition_SameStatusAsCurrentStatus -- Time elapsed: 0.024 s <<< FAILURE!
 java.lang.AssertionError: Status expected:<400> but was:<422>
 	at org.springframework.test.util.AssertionErrors.fail(AssertionErrors.java:59)
 	at org.springframework.test.util.AssertionErrors.assertEquals(AssertionErrors.java:122)
@@ -13,7 +13,7 @@ java.lang.AssertionError: Status expected:<400> but was:<422>
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
 
-com.example.oa.controller.Task11ValidateStateTransitionsTest.testInvalidTransition_DeliveredToAnyState -- Time elapsed: 0.018 s <<< FAILURE!
+com.example.oa.controller.Task11ValidateStateTransitionsTest.testInvalidTransition_DeliveredToAnyState -- Time elapsed: 0.016 s <<< FAILURE!
 java.lang.AssertionError: Status expected:<400> but was:<422>
 	at org.springframework.test.util.AssertionErrors.fail(AssertionErrors.java:59)
 	at org.springframework.test.util.AssertionErrors.assertEquals(AssertionErrors.java:122)
@@ -24,35 +24,13 @@ java.lang.AssertionError: Status expected:<400> but was:<422>
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
 
-com.example.oa.controller.Task11ValidateStateTransitionsTest.testValidTransition_PendingToShipped -- Time elapsed: 0.024 s <<< FAILURE!
-java.lang.AssertionError: Status expected:<200> but was:<422>
-	at org.springframework.test.util.AssertionErrors.fail(AssertionErrors.java:59)
-	at org.springframework.test.util.AssertionErrors.assertEquals(AssertionErrors.java:122)
-	at org.springframework.test.web.servlet.result.StatusResultMatchers.lambda$matcher$9(StatusResultMatchers.java:637)
-	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:214)
-	at com.example.oa.controller.Task11ValidateStateTransitionsTest.testValidTransition_PendingToShipped(Task11ValidateStateTransitionsTest.java:52)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
-
-com.example.oa.controller.Task11ValidateStateTransitionsTest.testInvalidTransition_CancelledToAnyState -- Time elapsed: 0.045 s <<< FAILURE!
+com.example.oa.controller.Task11ValidateStateTransitionsTest.testInvalidTransition_CancelledToAnyState -- Time elapsed: 0.027 s <<< FAILURE!
 java.lang.AssertionError: Status expected:<400> but was:<422>
 	at org.springframework.test.util.AssertionErrors.fail(AssertionErrors.java:59)
 	at org.springframework.test.util.AssertionErrors.assertEquals(AssertionErrors.java:122)
 	at org.springframework.test.web.servlet.result.StatusResultMatchers.lambda$matcher$9(StatusResultMatchers.java:637)
 	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:214)
 	at com.example.oa.controller.Task11ValidateStateTransitionsTest.testInvalidTransition_CancelledToAnyState(Task11ValidateStateTransitionsTest.java:119)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
-
-com.example.oa.controller.Task11ValidateStateTransitionsTest.testValidTransition_ShippedToDelivered -- Time elapsed: 0.025 s <<< FAILURE!
-java.lang.AssertionError: Status expected:<200> but was:<422>
-	at org.springframework.test.util.AssertionErrors.fail(AssertionErrors.java:59)
-	at org.springframework.test.util.AssertionErrors.assertEquals(AssertionErrors.java:122)
-	at org.springframework.test.web.servlet.result.StatusResultMatchers.lambda$matcher$9(StatusResultMatchers.java:637)
-	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:214)
-	at com.example.oa.controller.Task11ValidateStateTransitionsTest.testValidTransition_ShippedToDelivered(Task11ValidateStateTransitionsTest.java:76)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)

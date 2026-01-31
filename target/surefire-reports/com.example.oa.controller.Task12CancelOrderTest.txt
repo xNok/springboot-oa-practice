@@ -1,69 +1,14 @@
 -------------------------------------------------------------------------------
 Test set: com.example.oa.controller.Task12CancelOrderTest
 -------------------------------------------------------------------------------
-Tests run: 6, Failures: 6, Errors: 0, Skipped: 0, Time elapsed: 7.062 s <<< FAILURE! -- in com.example.oa.controller.Task12CancelOrderTest
-com.example.oa.controller.Task12CancelOrderTest.testCancelOrder_PendingOrderSuccess -- Time elapsed: 0.699 s <<< FAILURE!
-java.lang.AssertionError: Status expected:<200> but was:<500>
-	at org.springframework.test.util.AssertionErrors.fail(AssertionErrors.java:59)
-	at org.springframework.test.util.AssertionErrors.assertEquals(AssertionErrors.java:122)
-	at org.springframework.test.web.servlet.result.StatusResultMatchers.lambda$matcher$9(StatusResultMatchers.java:637)
-	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:214)
-	at com.example.oa.controller.Task12CancelOrderTest.testCancelOrder_PendingOrderSuccess(Task12CancelOrderTest.java:49)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
-
-com.example.oa.controller.Task12CancelOrderTest.testCancelOrder_AlreadyCancelledOrderCannotBeCancelledAgain -- Time elapsed: 0.037 s <<< FAILURE!
-java.lang.AssertionError: Status expected:<200> but was:<500>
-	at org.springframework.test.util.AssertionErrors.fail(AssertionErrors.java:59)
-	at org.springframework.test.util.AssertionErrors.assertEquals(AssertionErrors.java:122)
-	at org.springframework.test.web.servlet.result.StatusResultMatchers.lambda$matcher$9(StatusResultMatchers.java:637)
-	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:214)
-	at com.example.oa.controller.Task12CancelOrderTest.testCancelOrder_AlreadyCancelledOrderCannotBeCancelledAgain(Task12CancelOrderTest.java:83)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
-
-com.example.oa.controller.Task12CancelOrderTest.testCancelOrder_OrderNotFound -- Time elapsed: 0.026 s <<< FAILURE!
-java.lang.AssertionError: Status expected:<404> but was:<500>
-	at org.springframework.test.util.AssertionErrors.fail(AssertionErrors.java:59)
-	at org.springframework.test.util.AssertionErrors.assertEquals(AssertionErrors.java:122)
-	at org.springframework.test.web.servlet.result.StatusResultMatchers.lambda$matcher$9(StatusResultMatchers.java:637)
-	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:214)
-	at com.example.oa.controller.Task12CancelOrderTest.testCancelOrder_OrderNotFound(Task12CancelOrderTest.java:93)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
-
-com.example.oa.controller.Task12CancelOrderTest.testCancelOrder_ShippedOrderSuccess -- Time elapsed: 0.236 s <<< FAILURE!
-java.lang.AssertionError: Status expected:<200> but was:<422>
-	at org.springframework.test.util.AssertionErrors.fail(AssertionErrors.java:59)
-	at org.springframework.test.util.AssertionErrors.assertEquals(AssertionErrors.java:122)
-	at org.springframework.test.web.servlet.result.StatusResultMatchers.lambda$matcher$9(StatusResultMatchers.java:637)
-	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:214)
-	at com.example.oa.controller.Task12CancelOrderTest.testCancelOrder_ShippedOrderSuccess(Task12CancelOrderTest.java:61)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
-
-com.example.oa.controller.Task12CancelOrderTest.testCancelOrder_DeliveredOrderCannotBeCancelled -- Time elapsed: 0.027 s <<< FAILURE!
-java.lang.AssertionError: Status expected:<400> but was:<500>
+Tests run: 6, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.288 s <<< FAILURE! -- in com.example.oa.controller.Task12CancelOrderTest
+com.example.oa.controller.Task12CancelOrderTest.testCancelOrder_DeliveredOrderCannotBeCancelled -- Time elapsed: 0.022 s <<< FAILURE!
+java.lang.AssertionError: Status expected:<400> but was:<200>
 	at org.springframework.test.util.AssertionErrors.fail(AssertionErrors.java:59)
 	at org.springframework.test.util.AssertionErrors.assertEquals(AssertionErrors.java:122)
 	at org.springframework.test.web.servlet.result.StatusResultMatchers.lambda$matcher$9(StatusResultMatchers.java:637)
 	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:214)
 	at com.example.oa.controller.Task12CancelOrderTest.testCancelOrder_DeliveredOrderCannotBeCancelled(Task12CancelOrderTest.java:74)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
-
-com.example.oa.controller.Task12CancelOrderTest.testCancelOrder_VerifyOrderIsCancelled -- Time elapsed: 0.034 s <<< FAILURE!
-java.lang.AssertionError: Status expected:<200> but was:<500>
-	at org.springframework.test.util.AssertionErrors.fail(AssertionErrors.java:59)
-	at org.springframework.test.util.AssertionErrors.assertEquals(AssertionErrors.java:122)
-	at org.springframework.test.web.servlet.result.StatusResultMatchers.lambda$matcher$9(StatusResultMatchers.java:637)
-	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:214)
-	at com.example.oa.controller.Task12CancelOrderTest.testCancelOrder_VerifyOrderIsCancelled(Task12CancelOrderTest.java:102)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
