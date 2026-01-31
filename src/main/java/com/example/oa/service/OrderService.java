@@ -95,7 +95,21 @@ public class OrderService {
         
         OrderStatus newStatus = request.getStatus();
         
-        // Task 11 - Validate state transition
+        // Check if trying to set same status
+        if (order.getStatus() == newStatus) {
+            throw new IllegalArgumentException("Invalid transition: order already has status " + newStatus);
+        }
+        
+        // Check for final states - these should throw IllegalArgumentException for clearer error handling
+        if (order.getStatus() == OrderStatus.DELIVERED || order.getStatus() == OrderStatus.COMPLETED) {
+            throw new IllegalArgumentException("Invalid transition from final state " + order.getStatus());
+        }
+        
+        if (order.getStatus() == OrderStatus.CANCELLED) {
+            throw new IllegalArgumentException("Invalid transition from cancelled state");
+        }
+        
+        // Task 11 - Validate other state transitions
         if (!isValidTransition(order.getStatus(), newStatus)) {
             throw new BusinessRuleException(
                 "Invalid state transition from " + order.getStatus() + " to " + newStatus
@@ -109,8 +123,8 @@ public class OrderService {
     
     // Task 11 - Validate state transitions
     private boolean isValidTransition(OrderStatus from, OrderStatus to) {
-        // DELIVERED is final
-        if (from == OrderStatus.DELIVERED) {
+        // DELIVERED and COMPLETED are final states
+        if (from == OrderStatus.DELIVERED || from == OrderStatus.COMPLETED) {
             return false;
         }
         
@@ -127,7 +141,7 @@ public class OrderService {
             case CONFIRMED:
                 return to == OrderStatus.SHIPPED || to == OrderStatus.CANCELLED;
             case SHIPPED:
-                return to == OrderStatus.DELIVERED || to == OrderStatus.CANCELLED;
+                return to == OrderStatus.DELIVERED || to == OrderStatus.COMPLETED || to == OrderStatus.CANCELLED;
             case CANCELLED:
                 return false; // Cannot transition from CANCELLED
             default:
@@ -141,7 +155,7 @@ public class OrderService {
                 .orElseThrow(() -> new ResourceNotFoundException("Order", id));
         
         // Check if order can be cancelled
-        if (order.getStatus() == OrderStatus.DELIVERED) {
+        if (order.getStatus() == OrderStatus.DELIVERED || order.getStatus() == OrderStatus.COMPLETED) {
             throw new IllegalStateException("Cannot cancel a delivered order");
         }
         

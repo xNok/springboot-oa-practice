@@ -86,6 +86,15 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * Handles type conversion errors for request parameters (400 Bad Request)
+     */
+    @ExceptionHandler(org.springframework.web.method.annotation.MethodArgumentTypeMismatchException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleTypeMismatch(org.springframework.web.method.annotation.MethodArgumentTypeMismatchException ex) {
+        return new ErrorResponse("Invalid parameter value: " + ex.getValue(), HttpStatus.BAD_REQUEST.value());
+    }
+
+    /**
      * Handles all other unexpected exceptions (500 Internal Server Error)
      */
     @ExceptionHandler(Exception.class)

@@ -74,6 +74,11 @@ public class OrderController {
             throw new IllegalArgumentException("Invalid pagination parameters");
         }
         
+        // Validate date range
+        if (startDate != null && endDate != null && startDate.isAfter(endDate)) {
+            throw new IllegalArgumentException("Start date must be before or equal to end date");
+        }
+        
         // Parse sort parameter
         String[] sortParts = sort.split(",");
         String sortField = sortParts[0];
