@@ -2,6 +2,7 @@ package com.example.oa.service;
 
 import com.example.oa.dto.CartItemRequest;
 import com.example.oa.dto.CartItemResponse;
+import com.example.oa.entity.CartItem;
 import com.example.oa.repository.CartItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,9 +22,23 @@ public class CartItemService {
     @Autowired
     private CartItemRepository cartItemRepository;
 
-    // TODO: Task 1 - Implement method to retrieve all cart items
+    // Task 1 - Retrieve all cart items
     public List<CartItemResponse> getAllCartItems() {
-        throw new UnsupportedOperationException("Task 1: Implement getAllCartItems");
+        return cartItemRepository.findAll().stream()
+                .map(this::mapToResponse)
+                .toList();
+    }
+    
+    private CartItemResponse mapToResponse(CartItem cartItem) {
+        return new CartItemResponse(
+                cartItem.getId(),
+                cartItem.getOrderId(),
+                cartItem.getProductId(),
+                cartItem.getProductName(),
+                cartItem.getQuantity(),
+                cartItem.getPrice(),
+                cartItem.getQuantity() * cartItem.getPrice()
+        );
     }
 
     // TODO: Task 2 - Implement method to add a new cart item

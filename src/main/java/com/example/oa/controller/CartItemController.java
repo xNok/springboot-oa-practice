@@ -28,6 +28,10 @@ public class CartItemController {
     // Task 1: GET /api/cart/items
     // Returns: List<CartItemResponse>
     // Status: 200 OK (returns empty list if no items)
+    @GetMapping
+    public List<CartItemResponse> getAllCartItems() {
+        return cartItemService.getAllCartItems();
+    }
 
 
     // Task 2: POST /api/cart/items
