@@ -5,6 +5,7 @@ import com.example.oa.dto.OrderResponse;
 import com.example.oa.dto.UpdateOrderStatusRequest;
 import com.example.oa.entity.Order;
 import com.example.oa.entity.OrderStatus;
+import com.example.oa.exception.ResourceNotFoundException;
 import com.example.oa.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -50,9 +51,11 @@ public class OrderService {
         );
     }
 
-    // TODO: Task 6 - Implement method to get an order by ID
+    // Task 6 - Get an order by ID
     public OrderResponse getOrderById(Long id) {
-        throw new UnsupportedOperationException("Task 6: Implement getOrderById");
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Order", id));
+        return mapToResponse(order);
     }
 
     // TODO: Task 7 - Implement method to get orders with pagination

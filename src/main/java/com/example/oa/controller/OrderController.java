@@ -48,6 +48,10 @@ public class OrderController {
     // Returns: OrderResponse
     // Status: 200 OK
     // Errors: 404 if order not found
+    @GetMapping("/{id}")
+    public OrderResponse getOrderById(@PathVariable Long id) {
+        return orderService.getOrderById(id);
+    }
 
 
     // Task 7: GET /api/orders?page=0&size=10&sort=orderDate,desc
