@@ -37,6 +37,11 @@ public class OrderController {
     // Returns: OrderResponse
     // Status: 201 Created
     // Errors: 400 if validation fails
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public OrderResponse createOrder(@Valid @RequestBody OrderRequest request) {
+        return orderService.createOrder(request);
+    }
 
 
     // Task 6: GET /api/orders/{id}

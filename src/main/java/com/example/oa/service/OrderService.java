@@ -3,6 +3,7 @@ package com.example.oa.service;
 import com.example.oa.dto.OrderRequest;
 import com.example.oa.dto.OrderResponse;
 import com.example.oa.dto.UpdateOrderStatusRequest;
+import com.example.oa.entity.Order;
 import com.example.oa.entity.OrderStatus;
 import com.example.oa.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +26,28 @@ public class OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
-    // TODO: Task 5 - Implement method to create a new order
+    // Task 5 - Create a new order
     public OrderResponse createOrder(OrderRequest request) {
-        throw new UnsupportedOperationException("Task 5: Implement createOrder");
+        Order order = new Order();
+        order.setCustomerId(request.getCustomerId());
+        order.setCustomerName(request.getCustomerName());
+        order.setTotalAmount(request.getTotalAmount());
+        order.setOrderDate(LocalDateTime.now());
+        order.setStatus(OrderStatus.CREATED);
+        
+        Order saved = orderRepository.save(order);
+        return mapToResponse(saved);
+    }
+    
+    private OrderResponse mapToResponse(Order order) {
+        return new OrderResponse(
+                order.getId(),
+                order.getCustomerId(),
+                order.getCustomerName(),
+                order.getOrderDate(),
+                order.getStatus(),
+                order.getTotalAmount()
+        );
     }
 
     // TODO: Task 6 - Implement method to get an order by ID
