@@ -3,7 +3,10 @@ package com.example.oa.service;
 import com.example.oa.dto.CartItemRequest;
 import com.example.oa.dto.CartItemResponse;
 import com.example.oa.entity.CartItem;
+import com.example.oa.entity.Product;
+import com.example.oa.exception.ResourceNotFoundException;
 import com.example.oa.repository.CartItemRepository;
+import com.example.oa.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +24,9 @@ public class CartItemService {
 
     @Autowired
     private CartItemRepository cartItemRepository;
+    
+    @Autowired
+    private ProductRepository productRepository;
 
     // Task 1 - Retrieve all cart items
     public List<CartItemResponse> getAllCartItems() {
@@ -30,6 +36,7 @@ public class CartItemService {
     }
     
     private CartItemResponse mapToResponse(CartItem cartItem) {
+        double subtotal = Math.round(cartItem.getQuantity() * cartItem.getPrice() * 100.0) / 100.0;
         return new CartItemResponse(
                 cartItem.getId(),
                 cartItem.getOrderId(),
@@ -37,13 +44,27 @@ public class CartItemService {
                 cartItem.getProductName(),
                 cartItem.getQuantity(),
                 cartItem.getPrice(),
-                cartItem.getQuantity() * cartItem.getPrice()
+                subtotal
         );
     }
 
-    // TODO: Task 2 - Implement method to add a new cart item
+    // Task 2 - Add a new cart item
     public CartItemResponse addCartItem(CartItemRequest request) {
-        throw new UnsupportedOperationException("Task 2: Implement addCartItem");
+        // Validate that product exists
+        Product product = productRepository.findById(request.getProductId())
+                .orElseThrow(() -> new ResourceNotFoundException("Product", request.getProductId()));
+        
+        // Create new cart item
+        CartItem cartItem = new CartItem();
+        cartItem.setProductId(product.getId());
+        cartItem.setProductName(product.getName());
+        cartItem.setPrice(product.getPrice());
+        cartItem.setQuantity(request.getQuantity());
+        cartItem.setOrderId(null);  // Cart items don't have an orderId until checkout
+        
+        // Save and return
+        CartItem saved = cartItemRepository.save(cartItem);
+        return mapToResponse(saved);
     }
 
     // TODO: Task 3 - Implement method to update an existing cart item

@@ -19,7 +19,7 @@ import java.util.List;
  * Error handling is already configured in GlobalExceptionHandler.
  */
 @RestController
-@RequestMapping("/api/cart/items")
+@RequestMapping({"/api/cart/items", "/api/cart-items"})
 public class CartItemController {
 
     @Autowired
@@ -39,6 +39,11 @@ public class CartItemController {
     // Returns: CartItemResponse
     // Status: 201 Created
     // Errors: 404 if product not found, 400 if validation fails
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public CartItemResponse addCartItem(@Valid @RequestBody CartItemRequest request) {
+        return cartItemService.addCartItem(request);
+    }
 
 
     // Task 3: PUT /api/cart/items/{id}
