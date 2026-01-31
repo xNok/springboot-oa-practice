@@ -100,16 +100,12 @@ public class OrderService {
             throw new IllegalArgumentException("Invalid transition: order already has status " + newStatus);
         }
         
-        // Check for final states - these should throw IllegalArgumentException for clearer error handling
-        if (order.getStatus() == OrderStatus.DELIVERED || order.getStatus() == OrderStatus.COMPLETED) {
-            throw new IllegalArgumentException("Invalid transition from final state " + order.getStatus());
-        }
-        
+        // Special case: CANCELLED is a terminal state that shouldn't allow transitions (use IllegalArgumentException for consistency with same-status check)
         if (order.getStatus() == OrderStatus.CANCELLED) {
             throw new IllegalArgumentException("Invalid transition from cancelled state");
         }
         
-        // Task 11 - Validate other state transitions
+        // Task 11 - Validate state transition
         if (!isValidTransition(order.getStatus(), newStatus)) {
             throw new BusinessRuleException(
                 "Invalid state transition from " + order.getStatus() + " to " + newStatus
